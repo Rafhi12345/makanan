@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geprek Mantul</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: #fff8f0;
+}
+
+/* Navbar */
+.navbar{
+    background: #d62828;
+}
+
+.navbar-brand,
+.nav-link{
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Hero */
+.hero{
+    background: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
+    url('https://images.unsplash.com/photo-1608039755401-742074f0548d');
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.hero h1{
+    font-size: 55px;
+    font-weight: bold;
+}
+
+/* Card */
+.card{
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: .3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+}
+
+.card:hover{
+    transform: translateY(-5px);
+}
+
+.card img{
+    height: 220px;
+    object-fit: cover;
+}
+
+.btn-order{
+    background: #d62828;
+    color: white;
+}
+
+.btn-order:hover{
+    background: #b71c1c;
+    color: white;
+}
+
+.cart-box{
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,.1);
+}
+
+footer{
+    background: #222;
+    color: white;
+    margin-top: 50px;
+    padding: 20px;
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
+  <div class="container">
+
+    <a class="navbar-brand fw-bold" href="#">
+      🍗 Geprek lang
+    </a>
+
+    <button class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMenu">
+
+      <!-- Menu -->
+      <ul class="navbar-nav ms-auto me-3">
+        <li class="nav-item">
+          <a class="nav-link" href="#home">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#menu">Menu</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#kontak">Kontak</a>
+        </li>
+      </ul>
+
+      <!-- Search Atas -->
+      <form class="d-flex me-3">
+        <input
+          class="form-control"
+          type="search"
+          id="searchInput"
+          placeholder="Cari menu..."
+          onkeyup="searchMenu()">
+      </form>
+
+      <!-- Keranjang Navbar -->
+      <button class="btn btn-warning position-relative"
+        data-bs-toggle="modal"
+        data-bs-target="#cartModal">
+
+        🛒 Keranjang
+        <span id="cartCount"
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+          0
+        </span>
+      </button>
+
+    </div>
+  </div>
+</nav>
+
+<!-- Modal Keranjang -->
+<div class="modal fade" id="cartModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5>🛒 Keranjang Belanja</h5>
+        <button class="btn-close"
+        data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <ul id="cartList"
+        class="list-group mb-3">
+        </ul>
+
+        <h5>
+          Total:
+          <span id="totalHarga">
+            Rp 0
+          </span>
+        </h5>
+
+        <button
+        class="btn btn-success w-100 mt-3"
+        onclick="checkout()">
+        Beli Sekarang
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menuNavbar">
+<ul class="navbar-nav ms-auto">
+<li class="nav-item">
+<a class="nav-link" href="#home">Home</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#menu">Menu</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#kontak">Kontak</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="home">
+<div>
+<h1>Ayam Geprek Pedas Mantul 🔥</h1>
+<p>Ayam crispy, sambal pedas, minuman segar!</p>
+<a href="#menu" class="btn btn-danger btn-lg">
+Pesan Sekarang
+</a>
+</div>
+</section>
+
+<!-- Menu -->
+<section class="container mt-5" id="menu">
+
+<h2 class="text-center fw-bold mb-4">
+Menu Ayam Geprek & Minuman
+</h2>
+
+<!-- Search -->
+<div class="row mb-4">
+<div class="col-md-6 mx-auto">
+<input type="text"
+class="form-control"
+id="searchInput"
+placeholder="Cari menu..."
+onkeyup="searchMenu()">
+</div>
+</div>
+
+<div class="row" id="foodList">
+
+<!-- Geprek Original -->
+<div class="col-md-4 mb-4 food-item">
+<div class="card">
+<img src="https://images.unsplash.com/photo-1512058564366-18510be2db19">
+<div class="card-body text-center">
+<h5>Ayam Geprek Original</h5>
+<p>Rp 18.000</p>
+<button class="btn btn-order"
+onclick="addToCart('Ayam Geprek Original',18000)">
+Tambah Keranjang
+</button>
+
+<button class="btn btn-success ms-2"
+onclick="beliSekarang('Ayam Geprek Original',18000)">
+Beli
+</button>
+</div>
+</div>
+</div>
+
+<!-- Geprek Keju -->
+<div class="col-md-4 mb-4 food-item">
+<div class="card">
+<img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
+<div class="card-body text-center">
+<h5>Ayam Geprek Keju</h5>
+<p>Rp 23.000</p>
+<button class="btn btn-order"
+onclick="addToCart('Ayam Geprek Keju',23000)">
+Tambah Keranjang
+</button>
+
+<button class="btn btn-success ms-2"
+onclick="beliSekarang('Ayam Geprek Keju',23000)">
+Beli
+</button>
+</div>
+</div>
+</div>
+
+<!-- Geprek Mozzarella -->
+<div class="col-md-4 mb-4 food-item">
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
+        <div class="card-body text-center">
+            <h5>Ayam Geprek Mozzarella</h5>
+            <p>Rp 28.000</p>
+
+            <div class="d-flex justify-content-center gap-2">
+                <button class="btn btn-order"
+                onclick="addToCart('Ayam Geprek Mozzarella',28000)">
+                Keranjang
+                </button>
+
+                <button class="btn btn-success"
+                onclick="beliSekarang('Ayam Geprek Mozzarella',28000)">
+                Beli
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Es Teh -->
+<div class="col-md-4 mb-4 food-item">
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e">
+        <div class="card-body text-center">
+            <h5>Es Teh Manis</h5>
+            <p>Rp 5.000</p>
+
+            <div class="d-flex justify-content-center gap-2">
+                <button class="btn btn-order"
+                onclick="addToCart('Es Teh Manis',5000)">
+                Keranjang
+                </button>
+
+                <button class="btn btn-success"
+                onclick="beliSekarang('Es Teh Manis',5000)">
+                Beli
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lemon Tea -->
+<div class="col-md-4 mb-4 food-item">
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc">
+        <div class="card-body text-center">
+            <h5>Lemon Tea</h5>
+            <p>Rp 8.000</p>
+
+            <div class="d-flex justify-content-center gap-2">
+                <button class="btn btn-order"
+                onclick="addToCart('Lemon Tea',8000)">
+                Keranjang
+                </button>
+
+                <button class="btn btn-success"
+                onclick="beliSekarang('Lemon Tea',8000)">
+                Beli
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Jus Jeruk -->
+<div class="col-md-4 mb-4 food-item">
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4">
+        <div class="card-body text-center">
+            <h5>Jus Jeruk</h5>
+            <p>Rp 10.000</p>
+
+            <div class="d-flex justify-content-center gap-2">
+                <button class="btn btn-order"
+                onclick="addToCart('Jus Jeruk',10000)">
+                Keranjang
+                </button>
+
+                <button class="btn btn-success"
+                onclick="beliSekarang('Jus Jeruk',10000)">
+                Beli
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+
+
+<!-- Kontak -->
+<section class="container text-center mt-5" id="kontak">
+<h2>Kontak Kami</h2>
+<p>📞 0851-8077-3905</p>
+<p>📍 Bogor, Indonesia</p>
+</section>
+
+<footer class="text-center">
+<p>© 2026 Ayam Geprek galang Mantul</p>
+</footer>
+
+<script>
+let totalCart = 0;
+let totalHarga = 0;
+
+function addToCart(nama, harga){
+
+    let cart =
+    document.getElementById("cartList");
+
+    let li =
+    document.createElement("li");
+
+    li.className =
+    "list-group-item d-flex justify-content-between align-items-center";
+
+    li.innerHTML = `
+        <div>
+            <b>${nama}</b><br>
+            Rp ${harga.toLocaleString()}
+        </div>
+
+        <button class="btn btn-danger btn-sm"
+        onclick="hapusItem(this, ${harga})">
+        ❌
+        </button>
+    `;
+
+    cart.appendChild(li);
+
+    totalCart++;
+    totalHarga += harga;
+
+    updateCart();
+}
+
+function hapusItem(button, harga){
+    button.parentElement.remove();
+
+    totalCart--;
+    totalHarga -= harga;
+
+    updateCart();
+}
+
+function updateCart(){
+
+    document.getElementById(
+    "cartCount").innerText =
+    totalCart;
+
+    document.getElementById(
+    "totalHarga").innerText =
+    "Rp " +
+    totalHarga.toLocaleString();
+}
+
+function checkout(){
+
+    if(totalCart === 0){
+        alert("Keranjang masih kosong!");
+        return;
+    }
+
+    let items =
+    document.querySelectorAll(
+    "#cartList li b");
+
+    let pesan =
+    "Halo, saya ingin pesan:%0A";
+
+    items.forEach((item)=>{
+        pesan += "- " +
+        item.innerText + "%0A";
+    });
+
+    pesan +=
+    "%0ATotal: Rp " +
+    totalHarga.toLocaleString();
+
+    window.open(
+    "https://wa.me/6285180773905?text="
+    + pesan,
+    "_blank"
+    );
+}
+
+function searchMenu(){
+
+    let input =
+    document.getElementById(
+    "searchInput")
+    .value.toLowerCase();
+
+    let items =
+    document.getElementsByClassName(
+    "food-item");
+
+    for(let i=0;i<items.length;i++){
+
+        let text =
+        items[i]
+        .getElementsByTagName(
+        "h5")[0]
+        .innerText.toLowerCase();
+
+        items[i].style.display =
+        text.includes(input)
+        ? "block"
+        : "none";
+    }
+}
+
+function beliSekarang(nama, harga){
+
+    let pesan =
+    `Halo, saya ingin membeli:
+
+${nama}
+Harga: Rp ${harga.toLocaleString()}
+
+Apakah masih tersedia?`;
+
+    window.open(
+    "https://wa.me/6285180773905?text=" +
+    encodeURIComponent(pesan),
+    "_blank"
+    );
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
